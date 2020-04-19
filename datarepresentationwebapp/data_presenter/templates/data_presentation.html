@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <form id="original-data-form" class="col-md-4 d-flex form-inline align-content-center" method="post"
+              action="{% url "data_presenter:run" %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-2 form-group-container d-flex justify-content-center">
+                <div class="w-100"><h6>User input</h6></div>
+                <label for="sample-number-input">Sample number: </label>
+                <input type="text" class="form-control align-right" name="sample_number" id="sample-number-input"
+                       placeholder="1000" required>
+            </div>
+            <div class="form-group mb-2 form-group-container d-flex justify-content-center">
+                <div class="w-100"><h6>Data upload</h6></div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="data" name="orig-data-file" required>
+                    <label class="custom-file-label" for="data">Choose file</label>
+                </div>
+                <div class="w-100 text-right template_download" style="padding-top: 10px"><a
+                        href="{% url "data_presenter:template" %}" download>Download data template.xslt</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary form-button">Run</button>
+        </form>
+        <div class="plots-container row col-md-8 d-flex justify-content-center align-items-center">
+            <div class="col-md-6 panzoom"><img id="orig-plot" src="{% static 'images/plot-place-holder.png' %}"
+                                               class="plot-image"></div>
+            <div class="col-md-6"><img id="reload-plot" src="{% static 'images/plot-place-holder.png' %}"
+                                       class="plot-image"></div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <form id="calibrate-data-form" class="col-md-4 d-flex form-inline align-content-center" method="post"
+              action="{% url "data_presenter:calibrate" %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-2 form-group-container d-flex justify-content-center">
+                <div class="w-100"><h6>Calibrate upload</h6></div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input disabled" id="data-calibration"
+                           style="margin-left: 20px">
+                    <label class="custom-file-label" for="data-calibration">Choose file</label>
+                </div>
+                <div class="w-100 text-right template_download" style="padding-top: 10px"><a
+                        href="{% url "data_presenter:template" %}" download>Download data template.xslt</a>
+                </div>
+            </div>
+            <div class="w-100 d-flex justify-content-between mb-2">
+                <button type="submit" class="btn btn-primary form-button">Calibrate</button>
+                <button type="button" class="btn btn-primary form-button" data-plot-id="#reload-plot"
+                        data-url="{% url "data_presenter:run-rerun" %}">Re-Run
+                </button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary mb-2 form-button" data-plot-id="#report-plot"
+                        data-url="{% url "data_presenter:report" %}">Report
+                </button>
+            </div>
+        </form>
+        <div class="plots-container row col-md-8 d-flex justify-content-center align-items-center">
+            <div class="col-md-6"><img id="calibrated-plot" src="{% static 'images/plot-place-holder.png' %}"
+                                       class="plot-image"></div>
+            <div class="col-md-6"><img id="report-plot" src="{% static 'images/plot-place-holder.png' %}"
+                                       class="plot-image"></div>
+        </div>
+        <div id="plot-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div id="modal-plot-content" class="modal-content">
+                    <div class="w-100 h100 d-flex justify-content-center">
+                        <img id="modal-plot-image" src="#">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
