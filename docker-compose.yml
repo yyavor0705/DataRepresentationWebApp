@@ -1,15 +1,14 @@
 version: '3'
-
 services:
   server:
     build:
-      context: datarepresentationwebapp
+      context: .
     ports:
       - "80:8000"
     volumes:
       - ./datarepresentationwebapp:/datarepresentationwebapp
     command: >
-      sh -c python manage.py migrate &&
+      sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
@@ -19,7 +18,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:10-alpine
+    image: postgres:10
     environment:
       - POSTGRES_DB=datadb
       - POSTGRES_USER=postgres
