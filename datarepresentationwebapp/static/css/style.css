@@ -39,10 +39,6 @@
     cursor: pointer;
 }
 
-input {
-    margin: 15px
-}
-
 .input-label {
     margin-right: 15px;
 }
@@ -58,6 +54,7 @@ label.custom-file-label {
 
 #sample-number-input {
     text-align: right;
+    max-width: 100px;
 }
 
 #modal-plot-content {
