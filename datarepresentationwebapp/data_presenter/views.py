@@ -25,6 +25,10 @@ class OriginalDataView(LoginRequiredMixin, View):
 
     def post(self, request):
         sample_number = request.POST.get("sample_number")
+        parameter_a = request.POST.get("parameter-a")
+        parameter_b_1 = bool(request.POST.get("parameter-b-1"))
+        parameter_b_2 = bool(request.POST.get("parameter-b-2"))
+        parameter_b_3 = bool(request.POST.get("parameter-b-3"))
         request.session["sample_number"] = sample_number
         xlsx_file = request.FILES['orig-data-file']
         df = pd.read_excel(xlsx_file)
