@@ -9,10 +9,12 @@
             <div class="form-group mb-2 form-group-container d-flex justify-content-center">
                 <div class="container px-0">
                     <h6>User input</h6>
-                    <div class="d-flex flex-column flex-xl-row justify-content-center px-0">
-                        <label for="sample-number-input">Sample number: </label>
-                        <input type="text" class="form-control align-right mx-auto mx-xl-2" name="sample_number"
-                               id="sample-number-input"placeholder="1000" required>
+                    <div class="d-flex flex-column justify-content-center px-0">
+                        <label for="sample-number-input" class="mr-auto">Sample number:
+                            <span id="sample-number-display" class="ml-2 font-weight-bold"></span>
+                        </label>
+                        <input type="range" class="form-control custom-range mx-xl-3 my-2" name="sample_number"
+                               id="sample-number-input" min="1000" max="10000" value="1000" step="100">
                     </div>
                 </div>
             </div>

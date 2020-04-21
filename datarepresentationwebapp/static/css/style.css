@@ -54,7 +54,7 @@ label.custom-file-label {
 
 #sample-number-input {
     text-align: right;
-    max-width: 100px;
+    border: 0;
 }
 
 #modal-plot-content {

@@ -6,7 +6,9 @@ $(document).ready(function () {
         $("#original-data-form").submit(getOrigPlot);
         $("#calibrate-data-form").submit(getCalibratePlot);
         $(".plot-image").click(plotImageClick);
-        $("button[data-plot-id]").click(formLessButtonPress)
+        $("button[data-plot-id]").click(formLessButtonPress);
+        sampleNumberSliderListen();
+
     }
 );
 
@@ -76,6 +78,15 @@ function formLessButtonPress(event) {
     getPlotBase(url, null, "get", function(data){
         console.log(data);
         plotImage.attr("src", "data:image/png;base64," + data);
+    })
+}
+
+function sampleNumberSliderListen(){
+    let sampleInput = $("#sample-number-input");
+    let valueDisplay = $("#sample-number-display");
+    valueDisplay.text(sampleInput.val());
+    sampleInput.on("input", function(e) {
+        valueDisplay.text(sampleInput.val());
     })
 }
 
