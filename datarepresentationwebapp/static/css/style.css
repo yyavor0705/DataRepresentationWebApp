@@ -34,13 +34,7 @@
 }
 
 .plot-image {
-    width: 100%;
-    height: 100%;
     cursor: pointer;
-}
-
-.input-label {
-    margin-right: 15px;
 }
 
 .plots-container > div {
@@ -52,16 +46,16 @@ label.custom-file-label {
     padding-right: 50px;
 }
 
-#sample-number-input {
-    text-align: right;
-    border: 0;
-}
-
 #modal-plot-content {
     -moz-box-shadow: inset 0 0 10px #000000;
     -webkit-box-shadow: inset 0 0 10px #000000;
     box-shadow: inset 0 0 5px #000000;
     padding: 5px;
     border: 10px solid white;
+}
+
+pre {
+    font-family: inherit;
+    font-size: inherit;
 }
 

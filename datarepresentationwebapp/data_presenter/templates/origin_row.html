@@ -1,0 +1,60 @@
+{% load static %}
+
+<div class="row d-flex justify-content-center pt-3">
+    <form id="original-data-form" class="col-md-4 d-flex form-inline align-content-center" method="post"
+          action="{% url "data_presenter:run" %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group mb-2 form-group-container d-flex justify-content-center">
+            <div class="container px-0">
+                <h6>User input</h6>
+                <div class="d-flex flex-column justify-content-center px-0">
+                    <label for="year-input" class="mr-auto">Years:
+                        <span id="year-input-display" class="ml-2 font-weight-bold"></span>
+                    </label>
+                    <input type="range" class="form-control custom-range mx-xl-3 my-2 border-0" name="year"
+                           id="year-input" min="0.5" max="200" value="0.5" step="0.5">
+                </div>
+                <div class="d-flex flex-column flex-md-row justify-content-between px-0 mb-2">
+                    <label>Parameter A:</label>
+                    <select class="form-control min-vw-50" name="parameter-a">
+                        <option>CEM_I_42.5_R</option>
+                        <option>CEM_I_42.5_R+FA</option>
+                        <option>CEM_I_42.5_R+SF</option>
+                        <option>CEM_III/B_42.5</option>
+                    </select>
+                </div>
+                <div class="d-flex flex-row justify-content-between px-0 mb-2">
+                    <label for="parameter-b">Parameter B:</label>
+                    <div class="flex-row justify-content-between align-content-center">
+                        <input class="form-check-input mr-0" type="checkbox" name="parameter-b">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-2 form-group-container d-flex justify-content-center">
+            <div class="container">
+                <div class="row w-100"><h6>Data upload</h6></div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="data" name="orig-data-file" required>
+                    <label class="custom-file-label" for="data">Choose file</label>
+                </div>
+                <div class="d-flex flex-row-reverse w-100 text-right template_download px-0"><a
+                        href="{% url "data_presenter:original-template" %}" download>Download data template.xslt</a>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between w-100 mb-2">
+            <button type="submit" class="btn btn-primary form-button">Run</button>
+            <button class="btn btn-primary" id="postproc-btn"
+                    data-url="{% url "data_presenter:postproc" %}" disabled>Postproc
+            </button>
+        </div>
+    </form>
+    <div class="plots-container row col-md-8 d-flex justify-content-center">
+        <div class="col-md-7">
+            <img id="orig-plot" src="{% static 'images/plot-place-holder.png' %}"
+                 class="plot-image w-100">
+        </div>
+        <div id="orig-plot-text" class="mt-4 ml-md-5 font-weight-bold"></div>
+    </div>
+</div>

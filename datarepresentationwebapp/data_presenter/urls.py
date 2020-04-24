@@ -8,7 +8,8 @@ urlpatterns = [
     path('', views.MainPage.as_view(), name="data_presentation"),
     path('run', views.OriginalDataView.as_view(), name="run"),
     path('calibrate', views.CalibrateDataView.as_view(), name="calibrate"),
-    path('re-run', views.ReRunView.as_view(), name="run-rerun"),
+    path('postproc', views.PostprocView.as_view(), name="postproc"),
     path('report', views.ReportView.as_view(), name="report"),
-    path('template', views.download, name="template"),
+    path('originaltemplate', views.OriginalTemplateDownloadView.as_view(), name="original-template"),
+    path('calibratetemplate', views.CalibrateTemplateDownloadView.as_view(), name="calibrate-template"),
 ]

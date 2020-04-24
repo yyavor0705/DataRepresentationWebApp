@@ -3,34 +3,73 @@ $(document).ready(function () {
             let fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
-        $("#original-data-form").submit(getOrigPlot);
+        $("#original-data-form").submit(Run);
         $("#calibrate-data-form").submit(getCalibratePlot);
         $(".plot-image").click(plotImageClick);
-        $("button[data-plot-id]").click(formLessButtonPress);
         sampleNumberSliderListen();
-
+        $("#report-button").click(createReportPDF);
     }
 );
 
-function getOrigPlot(event) {
+function setBtnLoading(btn) {
+    btn.attr("disabled", true);
+    btn.append(spinEml);
+}
+
+function stopBtnLoading(btn) {
+    btn.attr("disabled", false);
+    btn.children("span").remove();
+}
+
+let spinEml = $("<span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>");
+
+function Run(event) {
     event.preventDefault();
+    let postprocBtn = $('#postproc-btn');
+    postprocBtn.attr("disabled", true);
     let url = $(this).attr('action');
     let method = $(this).attr('method');
-    getPlotBase(url, this, method, function (data) {
-        $('#orig-plot').attr("src", "data:image/png;base64," + data);
+    formRequestBase(url, this, method, function (data) {
+        postprocBtn.click(PostProc);
+        postprocBtn.removeAttr("disabled");
     })
+}
+
+function PostProc(event) {
+    let postProcBtn = $(this);
+    setBtnLoading(postProcBtn);
+    event.preventDefault();
+    let url = $(this).attr('data-url');
+    $.ajax({
+        type: "get",
+        url: url,
+        success: function (data) {
+            let plotImg = $('#orig-plot');
+            plotImg.attr("src", "data:image/png;base64," + data.image);
+            let textHolder = $('#orig-plot-text');
+            textHolder.empty();
+            textHolder.append("<pre>" + data.text.join("<br />") + "</pre>");
+            plotImg.parent().removeClass("col-md-7");
+        }
+    }).done(function () {
+        stopBtnLoading(postProcBtn);
+    });
+
 }
 
 function getCalibratePlot(event) {
     event.preventDefault();
     let url = $(this).attr('action');
     let method = $(this).attr('method');
-    getPlotBase(url, this, method, function (data) {
-        $('#calibrated-plot').attr("src", "data:image/png;base64," + data);
+    formRequestBase(url, this, method, function (data) {
+        $('#calibrated-plot').attr("src", "data:image/png;base64," + data.image);
+        let textHolder = $('#calibrate-plot-text');
+        textHolder.empty();
+        textHolder.append("<pre>" + data.text.join("<br />") + "</pre>");
     })
 }
 
-function getPlotBase(url, form, method, callback) {
+function formRequestBase(url, form, method, callback) {
     let form_data = {};
     if (form) {
         form_data = new FormData($(form)[0]);
@@ -71,23 +110,31 @@ function plotImageClick(event) {
     })
 }
 
-function formLessButtonPress(event) {
-    let plotImage = $($(this).attr("data-plot-id"));
-    let url = $(this).attr("data-url");
-    console.log(url);
-    getPlotBase(url, null, "get", function(data){
-        console.log(data);
-        plotImage.attr("src", "data:image/png;base64," + data);
+function sampleNumberSliderListen() {
+    let yearInput = $("#year-input");
+    let valueDisplay = $("#year-input-display");
+    valueDisplay.text(yearInput.val());
+    yearInput.on("input", function (e) {
+        valueDisplay.text(yearInput.val());
     })
 }
 
-function sampleNumberSliderListen(){
-    let sampleInput = $("#sample-number-input");
-    let valueDisplay = $("#sample-number-display");
-    valueDisplay.text(sampleInput.val());
-    sampleInput.on("input", function(e) {
-        valueDisplay.text(sampleInput.val());
-    })
-}
+function createReportPDF(e) {
+    let reportBtn = $(this);
+    setBtnLoading(reportBtn);
+    let holder = $("#pdf-holder");
+    let url = $(this).attr('data-url');
+    $.ajax({
+        type: "get",
+        url: url,
+        success: function (data) {
+            let dataUrl = 'data:application/pdf;base64, ' + data;
+            holder.attr('src', dataUrl);
+            $("#pdf-modal").modal();
+        }
+    }).done(function () {
+        stopBtnLoading(reportBtn);
+    });
 
+}
 
