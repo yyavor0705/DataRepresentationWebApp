@@ -401,7 +401,7 @@ def Pf_RS(R_info, S, R_distrib_type='normal', plot=False):  # updated!
             f"      sample count: {pf_sample}",
             f"      integral: {pf_kde}",
             f"      R S integral: {pf_RS}",
-            f"      eta_factor: {beta_factor}"
+            f"      beta_factor: {beta_factor}"
         )
         print('Pf(g = R-S < 0) from various methods')
         print('    sample count: {}'.format(pf_sample))

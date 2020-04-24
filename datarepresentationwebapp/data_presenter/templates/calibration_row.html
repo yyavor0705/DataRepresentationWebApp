@@ -14,13 +14,16 @@
                     <label class="custom-file-label" for="data-calibration">Choose file</label>
                 </div>
                 <div class="d-flex flex-row-reverse w-100 text-right template_download px-0"><a
-                        href="{% url "data_presenter:calibrate-template" %}" download>Download data template.xslt</a>
+                        href="{% url "data_presenter:calibrate-template" %}" download>Download data template.xlsx</a>
                 </div>
             </div>
         </div>
         <div class="w-100 d-flex justify-content-between mb-2">
             <button type="submit" class="btn btn-primary form-button">Calibrate</button>
         </div>
+        <button type="button" id="report-button" class="btn btn-primary mb-2 form-button"
+                data-url="{% url "data_presenter:report" %}">Report
+        </button>
 
     </form>
     <div class="plots-container row col-md-8 d-flex justify-content-center">
